@@ -1,4 +1,3 @@
-import { EACAggregatorProxyMock } from "./../typechain/EACAggregatorProxyMock.d"
 import { ethers } from "hardhat"
 import { BigNumberish } from "ethers"
 
@@ -43,7 +42,6 @@ export type PWPeggerContext = {
 export type PWPeggerContextExtended<T> = T & PWPeggerContext
 
 export async function preparePWPeggerWithEACAggregatorProxy(): Promise<PWPeggerContextExtended<{
-  aggregator: EACAggregatorProxyMock
 }> | null> {
   return null
 }

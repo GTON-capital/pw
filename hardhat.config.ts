@@ -1,5 +1,4 @@
 import "@typechain/hardhat"
-import "@nomiclabs/hardhat-ethers"
 import "@nomiclabs/hardhat-waffle"
 import "hardhat-abi-exporter"
 import "@nomiclabs/hardhat-etherscan"
@@ -45,36 +44,29 @@ export default {
         settings: {
           optimizer: {
             enabled: true,
-            runs: 200,
+            runs: 999999,
           },
         },
       },
       {
-        version: "0.6.6",
+        version: '0.6.6',
         settings: {
           optimizer: {
             enabled: true,
-            runs: 200,
-          },
+            runs: 999999
+          }
         },
+        evmVersion: 'istanbul'
       },
       {
-        version: "0.6.12",
+        version: '0.5.16',
         settings: {
           optimizer: {
             enabled: true,
-            runs: 200,
-          },
+            runs: 999999
+          }
         },
-      },
-      {
-        version: "0.5.16",
-        settings: {
-          optimizer: {
-            enabled: true,
-            runs: 200,
-          },
-        },
+        evmVersion: 'istanbul'
       },
     ],
   },

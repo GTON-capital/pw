@@ -1,5 +1,4 @@
 import { valueToDecimaled } from "../test/utils"
-import { EACAggregatorProxyMock__factory } from "./../typechain/factories/EACAggregatorProxyMock__factory"
 import { EACAggregatorProxy } from "./../typechain/EACAggregatorProxy.d"
 import { EACAggregatorProxy__factory } from "./../typechain/factories/EACAggregatorProxy__factory"
 import { CalibratorProxy } from "./../typechain/CalibratorProxy.d"
@@ -15,12 +14,11 @@ import { BigNumber } from "ethers"
 import { ethers } from "hardhat"
 import { Calibrator } from "~/typechain/Calibrator"
 import { ERC20PresetFixedSupply } from "~/typechain/ERC20PresetFixedSupply"
-import { QuickFactory } from "~/typechain/QuickFactory"
-import { QuickPair } from "~/typechain/QuickPair"
-import { QuickRouter01 } from "~/typechain/QuickRouter01"
+import { OGXFactory } from "~/typechain/OGXFactory"
+import { OGXPair } from "~/typechain/OGXPair"
+import { OGXRouter02 } from "~/typechain/OGXRouter02"
 import { PWPegger__factory } from "~/typechain/factories/PWPegger__factory"
 import { PWPeggerConfig } from "../test/pegger"
-import { EACAggregatorProxyMock } from "~/typechain/EACAggregatorProxyMock"
 
 type Context = {
   pwpegger: PWPegger
@@ -29,9 +27,9 @@ type Context = {
     calibratorProxy: CalibratorProxy
     calibrator: Calibrator
     builtPoolResponse: {
-      pair: QuickPair
-      factory: QuickFactory
-      router: QuickRouter01
+      pair: OGXPair
+      factory: OGXFactory
+      router: OGXRouter02
       lpOwnerHoldings: BigNumber
     }
     baseToken: ERC20PresetFixedSupply
@@ -55,9 +53,6 @@ const updateContext = async (
   const pwpeggerFactory = (await ethers.getContractFactory(
     "PWPegger"
   )) as PWPegger__factory
-  const eacAggrProxyFactory = (await ethers.getContractFactory(
-    "EACAggregatorProxyMock"
-  )) as EACAggregatorProxyMock__factory
 
   const [deployer, keeper, pwpegdonRef_admin, vault, feegetter] =
     await ethers.getSigners()

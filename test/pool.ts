@@ -13,13 +13,15 @@ import {
 } from "ethers"
 import { ERC20PresetFixedSupply } from "~/typechain/ERC20PresetFixedSupply"
 import { ERC20PresetFixedSupply__factory } from "~/typechain/factories/ERC20PresetFixedSupply__factory"
-import { QuickFactory__factory } from "~/typechain/factories/QuickFactory__factory"
-import { QuickRouter01__factory } from "~/typechain/factories/QuickRouter01__factory"
-import { QuickPair } from "~/typechain/QuickPair"
-import { WrappedNative } from "~/typechain/WrappedNative"
+import { OGXFactory } from "~/typechain/OGXFactory"
+import { OGXPair } from "~/typechain/OGXPair"
+import { OGXRouter02 } from "~/typechain/OGXRouter02"
 
+import { WrappedNative } from "~/typechain/WrappedNative"
 import { WrappedNative__factory } from "~/typechain/factories/WrappedNative__factory"
-// import { deferDeterminePricePush } from "./swap"
+
+const OGXRouter02Json = require('../contracts/ogx/precompiled/OGXRouter02.json');
+const OGXFactoryJson = require('../contracts/ogx/precompiled/OGXFactory.json');
 
 export const mapValue = (x: BigNumberish) =>
   new Big(x.toString()).div(1e18).toNumber()
@@ -36,18 +38,18 @@ export async function buildPool(
   quoteTokenLiq: BigNumber
 ) {
   const factoryFactory = (await ethers.getContractFactory(
-    "QuickFactory"
-  )) as QuickFactory__factory
-  const factory = await factoryFactory.connect(wallet).deploy(wallet.address)
+    OGXFactoryJson.abi,
+    OGXFactoryJson.bytecode
+  ))
+  const factory = await factoryFactory.connect(wallet).deploy(wallet.address) as OGXFactory
 
   await factory.setFeeTo(feeGetter)
 
   const routerFactory = (await ethers.getContractFactory(
-    "QuickRouter01"
-  )) as QuickRouter01__factory
-  const router = await routerFactory.deploy(factory.address, weth.address)
-
-  const pairFactory = await ethers.getContractFactory("QuickPair")
+    OGXRouter02Json.abi,
+    OGXRouter02Json.bytecode
+  ))
+  const router = await routerFactory.deploy(factory.address, weth.address) as OGXRouter02
 
   const createPairResult = await factory.createPair(
     baseToken.address,
@@ -58,9 +60,11 @@ export async function buildPool(
     quoteToken.address
   )
 
-  // console.log({ pairAddress, createPairResult })
+  const pairFactory = await ethers.getContractFactory("OGXPair")
+  const pair = pairFactory.attach(pairAddress) as OGXPair
 
-  const pair = pairFactory.attach(pairAddress) as QuickPair
+  const resultttt = await pair.price0CumulativeLast()
+  console.log({ resultttt })
 
   // let liquidityGTON = baseTokenLiq
   // let liquidityWETH = quoteTokenLiq
