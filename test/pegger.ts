@@ -1,8 +1,7 @@
 import { ethers } from "hardhat"
 import { BigNumberish } from "ethers"
 
-import { PWPegger__factory } from "./../typechain/factories/PWPegger__factory"
-import { PWPegger } from "./../typechain/PWPegger.d"
+import { PWPegger, PWPegger__factory } from "~/typechain"
 
 export type PWPeggerConfig = {
   admin: string
@@ -16,7 +15,6 @@ export type PWPeggerConfig = {
   frontrunth: BigNumberish
   decimals: BigNumberish
 }
-
 
 export async function preparePWPeggerEnvironment(
   pwPeggerCfg: PWPeggerConfig

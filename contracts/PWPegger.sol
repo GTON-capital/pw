@@ -133,38 +133,12 @@ contract PWPegger is IPWPegger {
             "Th Emergency Error: current price is much higher than keeperPrice");
     }
 
-    function _preparePWData(IUniswapV2Pair _pool, address _tokenGRef) public view returns (PoolData memory) {
-        (
-            uint112 reserve0, 
-            uint112 reserve1, 
-            uint32 blockTimestampLast
-        ) = _pool.getReserves();
-
-        IERC20 tokenG = IERC20(_pool.token0() == _tokenGRef ? _pool.token0() : _pool.token1());
-        IERC20 tokenU = IERC20(!(_pool.token0() == _tokenGRef) ? _pool.token0() : _pool.token1());
-
-        uint decimalsG = uint(tokenG.decimals());
-        uint decimalsU = uint(tokenU.decimals());
-
-        uint n = 10**pwconfig.decimals;
-
-        uint g = n*uint(_pool.token0() == _tokenGRef ? reserve0 : reserve1)/(10**decimalsG);
-        uint u = n*uint(!(_pool.token0() == _tokenGRef) ? reserve0 : reserve1)/(10**decimalsU);
-
-        return PoolData(
-            g, 
-            u, 
-            n*u/g, 
-            _pool.totalSupply()
-        );
-    }
-
     function callIntervention(uint newQuotePrice) external override onlyKeeper() onlyNotPaused() {
         require(newQuotePrice > 0, 'Call Error: newQuotePrice must be higher than 0');
 
         IUniswapV2Pair pool = IUniswapV2Pair(pwconfig.pool);
 
-        PoolData memory poolData = _preparePWData(pool, pwconfig.token);
+        PoolData memory poolData = getPoolData(pool, pwconfig.token);
 
         _checkThConditionsOrRaiseException(poolData.p1, newQuotePrice);
 
@@ -224,12 +198,38 @@ contract PWPegger is IPWPegger {
             revert("invalid pw action");
         }
     }
-
-    function getPWConfig() external override view returns (PWConfig memory) {
-        return pwconfig;
+    
+    function getLastRoundNumber() external override view onlyKeeper() returns (uint) {
+        return round;
+    }
+    
+    function getPoolData(IUniswapV2Pair _pool, address _tokenGRef) public view onlyKeeper() returns (PoolData memory) {
+        (
+            uint112 reserve0,
+            uint112 reserve1,
+            uint32 blockTimestampLast
+        ) = _pool.getReserves();
+        
+        IERC20 tokenG = IERC20(_pool.token0() == _tokenGRef ? _pool.token0() : _pool.token1());
+        IERC20 tokenU = IERC20(!(_pool.token0() == _tokenGRef) ? _pool.token0() : _pool.token1());
+        
+        uint decimalsG = uint(tokenG.decimals());
+        uint decimalsU = uint(tokenU.decimals());
+        
+        uint n = 10**pwconfig.decimals;
+        
+        uint g = n*uint(_pool.token0() == _tokenGRef ? reserve0 : reserve1)/(10**decimalsG);
+        uint u = n*uint(!(_pool.token0() == _tokenGRef) ? reserve0 : reserve1)/(10**decimalsU);
+        
+        return PoolData(
+            g,
+            u,
+            n*u/g,
+            _pool.totalSupply()
+        );
     }
 
-    function getLastRoundNumber() external override view returns (uint) {
-        return round;
+    function getPWConfig() external override view onlyKeeper() returns (PWConfig memory) {
+        return pwconfig;
     }
 }

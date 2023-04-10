@@ -1,4 +1,4 @@
-import { EACAggregatorProxy__factory } from "./../typechain/factories/EACAggregatorProxy__factory"
+import { EACAggregatorProxy__factory } from "~/typechain"
 
 import { ethers } from "hardhat"
 

@@ -1,15 +1,12 @@
-import { valueToDecimaled } from "../test/utils"
-import { EACAggregatorProxy } from "./../typechain/EACAggregatorProxy.d"
-import { EACAggregatorProxy__factory } from "./../typechain/factories/EACAggregatorProxy__factory"
-import { CalibratorProxy } from "./../typechain/CalibratorProxy.d"
-import { PWPegger } from "./../typechain/PWPegger.d"
+import { valueToDecimaled } from "~/test/utils"
+import { CalibratorProxy, PWPegger } from "~/typechain"
 import Big from "big.js"
 
 import {
   prepareTokensAndPoolsForProxy,
   CalibrateDirection,
   ProxyCalibrateInput,
-} from "../test/pool"
+} from "~/test/pool"
 import { BigNumber } from "ethers"
 import { ethers } from "hardhat"
 import { Calibrator } from "~/typechain/Calibrator"
@@ -18,7 +15,7 @@ import { OGXFactory } from "~/typechain/OGXFactory"
 import { OGXPair } from "~/typechain/OGXPair"
 import { OGXRouter02 } from "~/typechain/OGXRouter02"
 import { PWPegger__factory } from "~/typechain/factories/PWPegger__factory"
-import { PWPeggerConfig } from "../test/pegger"
+import { PWPeggerConfig } from "~/test/pegger"
 
 type Context = {
   pwpegger: PWPegger
@@ -115,10 +112,6 @@ const updateContext = async (
     proxyContext,
   }
 }
-
-// beforeEach(async () => {
-//   context = await updateContext()
-// })
 
 const priceToPWPegRepr = (price: number, dec = 6): string => {
   const str = valueToDecimaled(price, dec)

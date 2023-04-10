@@ -74,7 +74,5 @@ describe("PWPeggerMock", function () {
         const rnd = await pwpeggerMock.getLastRoundNumber();
 
         console.log(rnd);
-
     })
-
 });

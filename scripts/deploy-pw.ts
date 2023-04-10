@@ -1,10 +1,9 @@
-import { CalibratorProxy__factory } from "./../typechain/factories/CalibratorProxy__factory"
-import { Calibrator__factory } from "~/typechain/factories/Calibrator__factory"
 import Big from "big.js"
 import { ethers } from "hardhat"
 
-import { PWPegger__factory } from "./../typechain/factories/PWPegger__factory"
-import { PWPeggerConfig } from "./../test/pegger"
+import { CalibratorProxy__factory, PWPegger__factory } from "~/typechain"
+import { Calibrator__factory } from "~/typechain/factories/Calibrator__factory"
+import { PWPeggerConfig } from "~/test/pegger"
 
 async function mutatePWConfig(addr: string, config: PWPeggerConfig) {
   const factory = (await ethers.getContractFactory(

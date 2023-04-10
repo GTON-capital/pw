@@ -1,8 +1,6 @@
-import Big from "big.js"
-import { expect } from "chai"
 import { ethers, waffle } from "hardhat"
 
-import { preparePWPeggerEnvironment, PWPeggerConfig } from "./pegger"
+import { PWPeggerConfig } from "./pegger"
 import { valueToDecimaled } from "./utils"
 
 import { ERC20PresetFixedSupply__factory } from "~/typechain/factories/ERC20PresetFixedSupply__factory"

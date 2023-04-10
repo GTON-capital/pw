@@ -1,15 +1,11 @@
 import { Calibrator__factory } from "~/typechain/factories/Calibrator__factory"
-import { CalibratorProxy__factory } from "./../typechain/factories/CalibratorProxy__factory"
+import { CalibratorProxy__factory } from "~/typechain"
 import Big from "big.js"
-import { expect } from "chai"
 import { ethers } from "hardhat"
 import {
   BigNumber,
   BigNumberish,
-  ContractTransaction,
-  Overrides,
   Signer,
-  Wallet,
 } from "ethers"
 import { ERC20PresetFixedSupply } from "~/typechain/ERC20PresetFixedSupply"
 import { ERC20PresetFixedSupply__factory } from "~/typechain/factories/ERC20PresetFixedSupply__factory"
@@ -63,8 +59,8 @@ export async function buildPool(
   const pairFactory = await ethers.getContractFactory("OGXPair")
   const pair = pairFactory.attach(pairAddress) as OGXPair
 
-  const resultttt = await pair.price0CumulativeLast()
-  console.log({ resultttt })
+  const result = await pair.price0CumulativeLast()
+  console.log({ result })
 
   // let liquidityGTON = baseTokenLiq
   // let liquidityWETH = quoteTokenLiq

@@ -1,7 +1,6 @@
-import { valueToDecimaled } from "./utils"
-import { CalibratorProxy } from "./../typechain/CalibratorProxy.d"
-import { PWPegger } from "./../typechain/PWPegger.d"
 import Big from "big.js"
+import { CalibratorProxy, PWPegger } from "~/typechain"
+import { valueToDecimaled } from "./utils"
 
 import {
   prepareTokensAndPoolsForProxy,

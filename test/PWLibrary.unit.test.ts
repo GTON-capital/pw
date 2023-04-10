@@ -1,6 +1,4 @@
-import { valueToDecimaled } from './utils';
-import { PWLibraryMock__factory } from "./../typechain/factories/PWLibraryMock__factory"
-import { PWLibraryMock } from "./../typechain/PWLibraryMock.d"
+import { PWLibraryMock, PWLibraryMock__factory } from "~/typechain"
 import { assert } from "chai"
 import { BigNumberish } from "ethers"
 import { ethers } from "hardhat"
@@ -182,5 +180,4 @@ describe("PW Library unit tests", () => {
       testContext.validate(testcase, gotOutput)
     }
   })
-
 })
