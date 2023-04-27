@@ -241,7 +241,7 @@ contract Calibrator is ICalibrator {
         uint256 balanceOfToken = token.balanceOf(address(this));
         uint256 balanceOfBase = base.balanceOf(address(this));
 
-        base.approve(address(router), balanceOfToken);
+        base.approve(address(router), balanceOfBase);
         token.approve(address(router), balanceOfToken);
 
         uint256 amountQuoteAdd = balanceOfToken;
